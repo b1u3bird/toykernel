@@ -1,14 +1,16 @@
-#define VIDEO_ADDRESS 0xB8000
-#define WHITE_ON_BLACK 0x07
+#include "vga.h"
+#include "io.h"
 void kernel_main(unsigned long magic,unsigned long addr){
     volatile char* video_memory = (volatile char *)VIDEO_ADDRESS;
-    char x[] = "Hello,world";
+    const char *s = "Hello,world";
+    int pos = get_cursor_position();
     int cur = 0;
-    while(x[cur]!='\0'){
-        int offset = cur*2;
-        video_memory[offset] = x[cur];
-        video_memory[offset+1] = WHITE_ON_BLACK;
+    while(s[cur]!='\0'){
+        int offset = cur*2 + pos;
+        video_memory[offset] = s[cur];
+        video_memory[offset+1] = VGA_COLOR_LIGHT_GREEN;
         cur++;
     }
-    return;
+    while(1);
 }
+
