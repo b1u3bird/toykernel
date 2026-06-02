@@ -11,19 +11,19 @@ void outb(unsigned short port,unsigned char data){
 
 int get_cursor_position(){
     int position = 0;
-    outb(0x3D4,0x0E);
-    position |= ((int)inb(0x3D5)) << 8;
-    outb(0x3D4,0x0F);
-    position |= ((int)inb(0x3D5));
+    outb(VGA_CRT_INDEX_PORT,VGA_CURSOR_HIGH_IDX);
+    position |= ((int)inb(VGA_CRT_DATA_PORT)) << 8;
+    outb(VGA_CRT_INDEX_PORT,VGA_CURSOR_LOW_IDX);
+    position |= ((int)inb(VGA_CRT_DATA_PORT));
     return position;
 }
 
 void update_cursor_position(int x,int y){
     int position = x*VGA_SCREEN_WIDTH + y;
-    outb(0x3D4,0x0E);
-    outb(0x3D5,(unsigned char)((position>>8)&0xFF));
-    outb(0x3D4,0x0F);
-    outb(0x3D5,(unsigned char)((position)&0xFF));
+    outb(VGA_CRT_INDEX_PORT,VGA_CURSOR_HIGH_IDX);
+    outb(VGA_CRT_DATA_PORT,(unsigned char)((position>>8)&0xFF));
+    outb(VGA_CRT_INDEX_PORT,VGA_CURSOR_LOW_IDX);
+    outb(VGA_CRT_DATA_PORT,(unsigned char)((position)&0xFF));
 }
 
 void clear_screen(){
