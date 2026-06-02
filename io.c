@@ -19,7 +19,7 @@ int get_cursor_position(){
 }
 
 void update_cursor_position(int x,int y){
-    int position = x*VGA_SCREEN_WIDTH + y;
+    int position = y*VGA_SCREEN_WIDTH + x;
     outb(VGA_CRT_INDEX_PORT,VGA_CURSOR_HIGH_IDX);
     outb(VGA_CRT_DATA_PORT,(unsigned char)((position>>8)&0xFF));
     outb(VGA_CRT_INDEX_PORT,VGA_CURSOR_LOW_IDX);
