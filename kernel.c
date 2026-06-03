@@ -3,22 +3,16 @@
 void kernel_main(unsigned long magic, unsigned long addr) {
     volatile char *video_memory = (volatile char *)VIDEO_ADDRESS;
     const char *s = "Hello,world";
-    int pos = get_cursor_position();
+    get_cursor_position();
     int cur = 0;
     while (s[cur] != '\0') {
-        int offset = cur * 2 + pos;
-        video_memory[offset] = s[cur];
-        video_memory[offset + 1] = VGA_COLOR_LIGHT_GREEN;
-        cur++;
-        update_cursor_position(cur + pos);
+	    putchar(s[cur]);
+	    cur++;
     }
     while (1) {
         char c = keyboard_getchar();
-	if(c==0)continue;
-        int offset = cur * 2 + pos;
-        video_memory[offset] = c;
-        video_memory[offset + 1] = VGA_COLOR_LIGHT_GREEN;
-        cur++;
-        update_cursor_position(cur + pos);
+        if (c == 0)
+            continue;
+        putchar(c);
     }
 }
