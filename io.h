@@ -1,11 +1,11 @@
 #ifndef IO_H
 #define IO_H
-unsigned char inb(unsigned short port);
-void outb(unsigned short port, unsigned char data);
-void get_cursor_position();
-void update_cursor_position();
-void clear_screen();
-char keyboard_getchar();
-void putchar(char c);
-void printk(const char *fmt, ...);
+unsigned char inb(unsigned short port) {
+    unsigned char result;
+    __asm__ volatile("inb %1,%0" : "=a"(result) : "Nd"(port));
+    return result;
+}
+void outb(unsigned short port, unsigned char data) {
+    __asm__ volatile("outb %0,%1" ::"a"(data), "Nd"(port));
+}
 #endif

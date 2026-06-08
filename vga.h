@@ -20,5 +20,10 @@ extern int cursor_y;
 // 屏幕尺寸定义
 #define VGA_SCREEN_WIDTH 80
 #define VGA_SCREEN_HEIGHT 25
-
+void get_cursor_position();
+void update_cursor_position();
+void clear_screen();
+char keyboard_getchar();
+void putchar(char c);
+void printk(const char *fmt, ...);
 #endif
