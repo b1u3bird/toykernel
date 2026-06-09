@@ -58,5 +58,7 @@ void c_interrupt_dispatcher(struct pt_regs *regs) {
         }
     } else if (regs->interrupt_number == 33) {
         extern void handle_raw_scancode(unsigned char scancode);
+	unsigned char scancode = inb(0x60);
+	handle_raw_scancode(scancode);
     }
 }
