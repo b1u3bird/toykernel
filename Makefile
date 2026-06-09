@@ -2,12 +2,12 @@ CC = gcc
 LD = ld
 QEMU = qemu-system-i386
 
-CFLAGS = -m32 -ffreestanding -O2 -Wall -Wextra -fno-pie
+CFLAGS = -m32 -ffreestanding -O2 -Wall -Wextra -fno-pie 
 ASFLAGS = -m32
 LDFLAGS = -m elf_i386 -T linker.ld -no-pie
 
 TARGET = mykernel.bin
-OBJS = boot.o kernel.o io.o
+OBJS = boot.o interrupt.o kernel.o  keyboard.o idt.o vga.o
 
 .PHONY: all clean run
 
@@ -20,11 +20,20 @@ $(TARGET): $(OBJS)
 boot.o: boot.S
 	$(CC) $(ASFLAGS) -c boot.S -o boot.o
 
-kernel.o: kernel.c vga.h io.h
+interrupt.o:interrupt.S
+	$(CC) $(ASFLAGS) -c interrupt.S -o interrupt.o
+
+kernel.o: kernel.c vga.h io.h keyboard.h
 	$(CC) $(CFLAGS) -c kernel.c -o kernel.o
 
-io.o: io.c io.h vga.h
-	$(CC) $(CFLAGS) -c io.c -o io.o
+idt.o: idt.c idt.h io.h keyboard.h
+	$(CC) $(CFLAGS) -c idt.c -o idt.o
+
+vga.o: vga.c vga.h io.h
+	$(CC) $(CFLAGS) -c vga.c -o vga.o
+
+keyboard.o: keyboard.c vga.h keyboard.h io.h
+	$(CC) $(CFLAGS) -c keyboard.c -o keyboard.o
 
 run:all
 	$(QEMU) -kernel $(TARGET)

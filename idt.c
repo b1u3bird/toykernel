@@ -1,5 +1,6 @@
 #include "idt.h"
 #include "io.h"
+#include "keyboard.h"
 #include "vga.h"
 struct idt_entry idt[256];
 struct idt_ptr idtp;
@@ -48,7 +49,7 @@ void idt_init() {
     __asm__ volatile("lidt (%0)" : : "m"(idtp));
 }
 
-void c_interrtupt_dispatcher(struct pt_regs *regs) {
+void c_interrupt_dispatcher(struct pt_regs *regs) {
     if (regs->interrupt_number == 32) {
         static int ticks = 0;
         ticks++;

@@ -1,6 +1,5 @@
 #include "vga.h"
 #include "io.h"
-#include "keyboard.h"
 #include <stdarg.h>
 int cursor_x = 0;
 int cursor_y = 0;
@@ -28,15 +27,6 @@ void clear_screen() {
     for (int i = 0; i < total_bytes; i += 2) {
         video_memory[i] = ' ';
     }
-}
-
-char keyboard_getchar() {
-    while (!(inb(KEYBOARD_STATUS_PORT) & 1))
-        ;
-    unsigned char scancode = inb(KEYBOARD_DATA_PORT);
-    if (scancode & 0x80)
-        return 0;
-    return scan_code_table[scancode];
 }
 
 void itoa(int x, char *str, int base) {
