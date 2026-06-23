@@ -7,7 +7,7 @@ ASFLAGS = -m32
 LDFLAGS = -m elf_i386 -T linker.ld -no-pie
 
 TARGET = mykernel.bin
-OBJS = boot.o interrupt.o kernel.o  keyboard.o idt.o vga.o
+OBJS = boot.o interrupt.o kernel.o  keyboard.o idt.o vga.o string.o
 
 .PHONY: all clean run
 
@@ -23,7 +23,7 @@ boot.o: boot.S
 interrupt.o:interrupt.S
 	$(CC) $(ASFLAGS) -c interrupt.S -o interrupt.o
 
-kernel.o: kernel.c vga.h io.h keyboard.h
+kernel.o: kernel.c vga.h io.h keyboard.h string.h
 	$(CC) $(CFLAGS) -c kernel.c -o kernel.o
 
 idt.o: idt.c idt.h io.h keyboard.h
@@ -34,6 +34,9 @@ vga.o: vga.c vga.h io.h
 
 keyboard.o: keyboard.c vga.h keyboard.h io.h
 	$(CC) $(CFLAGS) -c keyboard.c -o keyboard.o
+
+string.o: string.c string.h
+	$(CC) $(CFLAGS) -c string.c -o string.o
 
 run:all
 	$(QEMU) -kernel $(TARGET)

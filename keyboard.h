@@ -7,5 +7,5 @@
 // 键盘状态端口
 #define KEYBOARD_STATUS_PORT 0x64
 void handle_raw_scancode(unsigned char scancode);
-
+char keyboard_getchar();
 #endif

@@ -54,7 +54,7 @@ void c_interrupt_dispatcher(struct pt_regs *regs) {
         static int ticks = 0;
         ticks++;
         if (ticks % 100 == 0) {
-            printk("Timer Interrupt: %d ticks\n", ticks);
+            printk("\nTimer Interrupt: %d ticks\n", ticks);
         }
     } else if (regs->interrupt_number == 33) {
         extern void handle_raw_scancode(unsigned char scancode);

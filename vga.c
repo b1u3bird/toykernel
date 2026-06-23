@@ -107,6 +107,10 @@ void putchar(char c) {
     } else if (c == '\b') {
         if (cursor_x > 0) {
             cursor_x--;
+	    int pos = cursor_x + cursor_y * VGA_SCREEN_WIDTH;
+	    int offset = pos * 2;
+	    video_memory[offset] = ' ';
+	    video_memory[offset + 1] = VGA_COLOR_LIGHT_GREEN;
         }
     } else if (c == '\t') {
         int nexttab_x = (cursor_x / 8 + 1) * 8;

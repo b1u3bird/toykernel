@@ -23,7 +23,6 @@ extern int cursor_y;
 void get_cursor_position();
 void update_cursor_position();
 void clear_screen();
-char keyboard_getchar();
 void putchar(char c);
 void printk(const char *fmt, ...);
 #endif
