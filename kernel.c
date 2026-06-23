@@ -36,14 +36,25 @@ void handle_command(char *cmd) {
 }
 void cmd_putchar(char c) {
     if (c == '\n') {
-        handle_command(cmd_buf);
-        memset(cmd_buf, 0, buf_pos);
-        buf_pos = 0;
+        putchar(c);
+        if (buf_pos > 0) {
+            handle_command(cmd_buf);
+            memset(cmd_buf, 0, buf_pos);
+            buf_pos = 0;
+        }
         printk("ToyOS_Shell>");
     } else if (c == '\b') {
-        if (buf_pos > 0)
+        if (buf_pos > 0) {
+            putchar(c);
             cmd_buf[--buf_pos] = '\0';
+        }
     } else {
+        if (buf_pos == buf_siz - 1) {
+            printk("\nCommand buffer full! Please press Enter to execute the "
+                   "command.\n");
+            return;
+        }
+        putchar(c);
         cmd_buf[buf_pos++] = c;
     }
 }
@@ -69,7 +80,6 @@ void kernel_main(unsigned long magic, unsigned long addr) {
             __asm__ volatile("hlt");
             continue;
         }
-        putchar(c);
         cmd_putchar(c);
     }
 }
