@@ -28,10 +28,9 @@ void handle_command(char *cmd) {
         reboot();
     } else if (strcmp(cmd, "shutdown") == 0) {
         shutdown();
-    } // else if (strncmp(cmd, "echo ", 5) == 0) { */
-    /*     printk("%s\n", cmd + 5); */
-    // }
-    else {
+    } else if (strncmp(cmd, "echo ", 5) == 0) {
+        printk("%s\n", cmd + 5);
+    } else {
         printk("Unknown command: %s\n", cmd);
     }
 }
