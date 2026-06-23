@@ -4,7 +4,7 @@ int strcmp(const char *a, const char *b) {
         a++;
         b++;
     }
-    return *a == *b;
+    return *(const unsigned char *)a - *(const unsigned char *)b;
 }
 int strlen(const char *s) {
     int len = 0;
